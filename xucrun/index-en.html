@@ -1,0 +1,296 @@
+<!doctype html>
+<!-- Purpose: Presents the English project overview and navigation. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="xucRun launches Windows programs under a different user account in a controlled way and requests UAC confirmation when needed.">
+  <meta name="theme-color" content="#f4f1ea">
+  <title>xucRun | Account switching and privilege elevation for Windows</title>
+  <link rel="alternate" hreflang="de" href="index.html">
+  <link rel="alternate" hreflang="en" href="index-en.html">
+  <link rel="icon" href="assets/xucRun.ico">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="xucRun home page">
+      <img src="assets/xucRun.ico" width="32" height="32" alt="">
+      <span>xucRun</span>
+    </a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="navigation">
+      <span class="sr-only">Open navigation</span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+    <nav id="navigation" class="navigation" aria-label="Main navigation">
+      <a href="#functionality">Functionality</a>
+      <a href="#security">Safeguards</a>
+      <a href="#workflow">Setup</a>
+      <a href="#examples">Examples</a>
+      <a href="https://github.com/HT64/xucRun/blob/main/README.md">Documentation</a>
+      <a href="#faq">Questions</a>
+      <a href="#download">Download</a>
+      <div class="language-selector" aria-label="Language">
+        <a href="index.html" lang="de" hreflang="de" aria-label="Auf Deutsch wechseln">DE</a>
+        <span aria-current="page">EN</span>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">eXecute Under User Context</p>
+        <h1>xucRun</h1>
+        <p class="hero-lead">xucRun launches Windows programs under an administrator account or another Windows account. Stored credentials avoid repeated password entry. Any UAC confirmation required by Windows for the specific launch remains required. Every launch using stored credentials must be covered by an active approval or confirmed in a dialog. Commands can be invoked interactively or by script.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#download">Releases and source code</a>
+          <a class="button button-secondary" href="https://github.com/HT64/xucRun/blob/main/README.md">README and documentation</a>
+        </div>
+        <p class="hero-note">xucRun is open-source software under development. The current state may contain defects, differ from the described behavior, and change. It is intended for experienced home users and developers on self-managed Windows PCs, not for systems requiring an elevated level of protection. Use is at the user's own responsibility. <a href="impressum-en.html#intended-use">Read about intended use, protection boundaries, and liability</a>.</p>
+      </div>
+
+      <div class="product-scene" aria-label="Examples of xucRun commands and their workflow">
+        <div class="command-examples">
+          <div class="terminal-window">
+            <div class="window-bar">
+              <span>PowerShell</span>
+            </div>
+            <div class="terminal">
+              <p><span class="prompt">PS C:\Tools&gt;</span> .\xucRun.exe regedit.exe</p>
+            </div>
+          </div>
+          <div class="terminal-window">
+            <div class="window-bar">
+              <span>Command Prompt</span>
+            </div>
+            <div class="terminal">
+              <p><span class="prompt">C:\Tools&gt;</span>xucRun.exe regedit.exe</p>
+            </div>
+          </div>
+        </div>
+        <div class="flow-transition" aria-hidden="true"></div>
+        <div class="workflow-card">
+          <div class="workflow-heading">
+            <span>Typical workflow</span>
+            <strong>Elevated launch with account switch</strong>
+          </div>
+          <div class="flow">
+            <div class="flow-line"><span class="flow-marker" aria-hidden="true"></span><span>Stored administrator account found</span></div>
+            <div class="flow-line"><span class="flow-marker" aria-hidden="true"></span><span>Credential checked against approval</span></div>
+            <div class="flow-line"><span class="flow-marker" aria-hidden="true"></span><span>UAC confirmation granted</span></div>
+            <div class="flow-line active"><span class="flow-marker flow-marker-result" aria-hidden="true"></span><span>Program started with elevated privileges</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="proof-strip" aria-label="Overview">
+      <p><strong>Windows functions</strong><span>Account switching and UAC</span></p>
+      <p><strong>Separate storage</strong><span>No password transfer to target programs in the intended workflow</span></p>
+      <p><strong>Interactive approvals</strong><span>Selected in the dialog as one-time or reusable</span></p>
+    </section>
+
+    <section class="section" id="functionality">
+      <div class="section-heading">
+        <p class="eyebrow">Purpose and functionality</p>
+        <h2>Account switching and optional privilege elevation.</h2>
+        <p>xucRun covers several use cases in which a program is to run with elevated privileges or under another user account, with or without elevation. A central use case is launching selected programs for administrative tasks from a standard user account. Commands can be invoked from scripts, batch files, fixed shortcuts, and custom commands in configurable file managers.</p>
+      </div>
+      <div class="feature-grid">
+        <article>
+          <span class="feature-number">01</span>
+          <h3>Commands without account names</h3>
+          <p>If exactly one administrator account is stored, the program command alone is enough for an elevated launch. User names and passwords then need not be included in scripts or shortcuts.</p>
+        </article>
+        <article>
+          <span class="feature-number">02</span>
+          <h3>Paths and special characters</h3>
+          <p>xucRun handles program paths, working directories, batch files, and common shell special characters and passes them to the target program.</p>
+        </article>
+        <article>
+          <span class="feature-number">03</span>
+          <h3>Interactive dialogs</h3>
+          <p>Dialogs are used to set up and select accounts and to approve program launches.</p>
+        </article>
+        <article>
+          <span class="feature-number">04</span>
+          <h3>Windows functions in one workflow</h3>
+          <p>xucRun uses existing Windows functions for account switching and UAC elevation in a common workflow for program launches.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section security-section" id="security">
+      <div class="security-intro">
+        <p class="eyebrow">Safeguards</p>
+        <h2>Passwords are managed separately from normally launched programs.</h2>
+        <p>xucRun uses Windows APIs to store passwords. In the intended workflow, passwords are not passed through the command line or to the target program. Password entry and approvals take place on a separate Windows desktop. A per-user security identifier helps users recognize subsequent xucRun dialogs there.</p>
+        <p class="security-boundary"><strong>Protection boundary:</strong> On a compromised system, xucRun cannot provide comprehensive protection. In addition, calling scripts and configuration files must be trusted and protected against unauthorized modification.</p>
+      </div>
+      <div class="security-list">
+        <article>
+          <span aria-hidden="true">✓</span>
+          <div><h3>UAC remains UAC</h3><p>If Windows requires UAC confirmation for a specific elevation, it remains part of the launch process. xucRun does not replace it with its own approval. The UAC prompt that Windows actually displays depends on the specific launch path and Windows configuration.</p></div>
+        </article>
+        <article>
+          <span aria-hidden="true">✓</span>
+          <div><h3>Launches bound to path and hash</h3><p>Approvals for a specific target program bind its final resolved path and SHA-256 hash. If the bound program file changes, the previous approval no longer matches. General approvals do not have this program binding.</p></div>
+        </article>
+        <article>
+          <span aria-hidden="true">✓</span>
+          <div><h3>Use requires approval</h3><p>xucRun uses stored credentials only for a launch covered by an active approval or approved by the user in the current dialog. Without approval, the launch does not proceed.</p></div>
+        </article>
+        <article>
+          <span aria-hidden="true">✓</span>
+          <div><h3>Choose the balance between convenience and narrow scope</h3><p>Longer and broader approvals avoid repeated xucRun approval decisions more often. Shorter approvals or approvals bound more precisely to a program, invocation, and target account limit how broadly they can be reused. For a reusable approval, this differentiated selection generally needs to be made only once.</p></div>
+        </article>
+        <article>
+          <span aria-hidden="true">✓</span>
+          <div><h3>Approvals with optional tighter binding</h3><p>Reusable approvals can additionally be bound to the arguments, working directory, and launch visibility. Directly recognized scripts can be included in this binding; content loaded later is not included.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section steps-section" id="workflow">
+      <div class="section-heading compact">
+        <p class="eyebrow">Installation and setup</p>
+        <h2>Verify the release and set up xucRun.</h2>
+        <p>The Core installer automatically creates a local xucRun certificate on your computer and uses it to sign the components to be installed. Before installation and during later use, xucRun verifies the signatures of the matching components. This makes subsequent changes detectable while keeping permanent trust limited to your computer; the developer certificate is not installed there as a trust anchor. The <a href="local-signing-en.html">local-signing guide</a> explains the details.</p>
+      </div>
+      <ol class="steps">
+        <li>
+          <span>1</span>
+          <div><h3>Install xucRun</h3><p>All required xucRun components are installed locally on your Windows system.</p></div>
+        </li>
+        <li>
+          <span>2</span>
+          <div><h3>Store a credential</h3><p>Required credentials are requested on a separate Windows desktop when needed and can also be set up in advance.</p></div>
+        </li>
+        <li>
+          <span>3</span>
+          <div><h3>Approve and launch a program</h3><p>If no matching approval is active, the launch is confirmed interactively.</p><code>.\xucRun.exe regedit.exe</code></div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="examples-section" id="examples">
+      <div class="section-heading compact">
+        <p class="eyebrow">Usage examples</p>
+        <h2>Examples of program launches.</h2>
+        <p>These examples assume that xucRun is installed and the required accounts have been set up. If no matching approval exists, xucRun asks interactively before launch.</p>
+      </div>
+      <div class="example-list">
+        <article>
+          <span class="example-number">01</span>
+          <div>
+            <h3>Launch Registry Editor with elevated privileges</h3>
+            <p>If exactly one administrator account is stored, the target command is sufficient. Any UAC confirmation required by Windows for this elevated launch remains required.</p>
+            <code>.\xucRun.exe regedit.exe</code>
+          </div>
+        </article>
+        <article>
+          <span class="example-number">02</span>
+          <div>
+            <h3>Launch a program under a specific account</h3>
+            <p><code>/user:</code> selects the specified account without xucRun requesting additional elevation itself.</p>
+            <code>.\xucRun.exe /user:DOMAIN\User notepad.exe</code>
+          </div>
+        </article>
+        <article>
+          <span class="example-number">03</span>
+          <div>
+            <h3>Call a batch file from a script</h3>
+            <p>Paths, arguments, and common shell special characters are passed to the batch file in a controlled way.</p>
+            <code>.\xucRun.exe "C:\Scripts\Maintenance &amp; Check.bat"</code>
+          </div>
+        </article>
+        <article>
+          <span class="example-number">04</span>
+          <div>
+            <h3>Replace the current console</h3>
+            <p>Without a target program, xucRun detects the calling console, starts the same console type in the selected account and elevation context, and preserves the current working directory. Command Prompt, Windows PowerShell, PowerShell, and TCC are supported.</p>
+            <code>.\xucRun.exe
+.\xucRun.exe /user:&lt;Account&gt;</code>
+          </div>
+        </article>
+        <article class="example-wide">
+          <span class="example-number">05</span>
+          <div>
+            <h3>Integrate with other applications</h3>
+            <p>xucRun can be invoked from configurable file managers, scripts, desktop shortcuts, and other applications to start programs with elevated privileges or under another account. The <a href="https://github.com/HT64/xucRun/blob/main/README.md#total-commander-integration">documentation</a> includes, among other examples, a complete configuration example for Total Commander.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section faq-section" id="faq">
+      <div class="section-heading compact">
+        <h2>Questions before use</h2>
+        <p>Management commands, backups, update behavior, and further technical details are covered in the <a href="https://github.com/HT64/xucRun/blob/main/README.md">README</a>.</p>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>How can I review and assess xucRun?</summary>
+          <p>Source code and documentation are publicly available so that the technical measures, their limitations, and remaining risks can be reviewed. Publication is neither a security guarantee nor evidence of an independent audit; xucRun has not been independently audited or certified. Before use, review the source code, SHA-256 checksums, intended use, and documented security limitations, and use xucRun only if the remaining risk is acceptable for your use case.</p>
+        </details>
+        <details>
+          <summary>What data does xucRun store, and where?</summary>
+          <p>xucRun uses Windows APIs to store passwords, approvals, security markers, associated metadata, and created backups on the local computer. Backups may also contain a description entered by the user. In the intended workflow, stored passwords and security markers are not passed to normally launched programs. These product data can be removed completely during uninstallation.</p>
+        </details>
+        <details>
+          <summary>Why does xucRun require a Windows service?</summary>
+          <p>The Windows service manages stored passwords separately from the normally launched xucRun program. It checks every requested launch and starts the program under the selected account. Required approvals and UAC prompts remain visible to the user and must still be confirmed. The service creates no additional privileges.</p>
+        </details>
+        <details>
+          <summary>Which systems and runtime components are required?</summary>
+          <p>xucRun supports Windows 10 and Windows 11 on x64 systems. Other Windows versions and ARM64 systems have not been tested and are not supported. The latest <a href="https://aka.ms/vc14/vc_redist.x64.exe">Microsoft Visual C++ v14 Redistributable for x64</a> is also required; xucRun needs no additional third-party service. If the runtime is missing, the installer offers download, selection of an existing <code>vc_redist.x64.exe</code>, or cancellation.</p>
+        </details>
+        <details>
+          <summary>Does xucRun bypass User Account Control?</summary>
+          <p>No. xucRun combines existing Windows functions, creates no additional privileges, and does not replace UAC with its own approval. For elevated cross-account launches, Windows must provide a confirmable UAC path for the selected administrator account; otherwise, the launch remains blocked. This can particularly affect the built-in <code>Administrator</code> account when Admin Approval Mode is disabled.</p>
+        </details>
+        <details>
+          <summary>Why does xucRun use local signing?</summary>
+          <p>The published package is signed with a self-signed developer certificate. Without local re-signing, this certificate would have to be installed permanently as a trusted root certification authority and trusted publisher on every target computer. Windows would then trust every file signed with the same developer certificate.</p>
+          <p>The Core installer verifies the digital signatures, creates or reuses a local certificate with a non-exportable private key, and re-signs the components. Permanent trust is thereby limited to the individual computer. Local signing does not establish the origin of the download, so the published SHA-256 checksum must be compared first. <a href="local-signing-en.html">Local signing in detail</a></p>
+        </details>
+      </div>
+    </section>
+
+    <section class="download-section" id="download">
+      <div>
+        <p class="eyebrow">xucRun for Windows</p>
+        <h2>Releases and source code.</h2>
+        <p>xucRun and the optional Tray are published as open-source projects on GitHub. The Tray adds a status and control interface in the Windows notification area.</p>
+        <p>Installation files, checksums, and release notes are listed on the download page. Source code, license texts, and technical documentation are maintained in the respective GitHub repositories.</p>
+        <p class="download-notice"><strong>Important:</strong> Before downloading or using the software, read the information about <a href="impressum-en.html#intended-use">intended use, security limitations, and potential risks</a>.</p>
+      </div>
+      <div class="download-actions">
+        <a class="button button-light" href="download-en.html">Releases and checksums</a>
+        <a class="button button-outline-light" href="https://github.com/HT64/xucRun">Core repository</a>
+        <a class="button button-outline-light" href="https://github.com/HT64/xucRun-Tray">Optional Tray repository</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="#top">
+      <img src="assets/xucRun.ico" width="28" height="28" alt="">
+      <span>xucRun</span>
+    </a>
+    <p>Account switching and privilege elevation for Windows.</p>
+    <div class="footer-links">
+      <a href="download-en.html">Download</a>
+      <a href="local-signing-en.html">Local signing</a>
+      <a href="impressum-en.html">Legal notice</a>
+      <a href="datenschutz-en.html">Privacy</a>
+    </div>
+    <small>© <span data-current-year></span> xucRun</small>
+  </footer>
+</body>
+</html>

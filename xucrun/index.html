@@ -1,0 +1,296 @@
+<!doctype html>
+<!-- Purpose: Presents the German project overview and navigation. -->
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="xucRun startet Windows-Programme kontrolliert unter einem anderen Benutzerkonto und fordert bei Bedarf die UAC-Bestätigung an.">
+  <meta name="theme-color" content="#f4f1ea">
+  <title>xucRun | Kontowechsel und Rechteerhöhung für Windows</title>
+  <link rel="alternate" hreflang="de" href="index.html">
+  <link rel="alternate" hreflang="en" href="index-en.html">
+  <link rel="icon" href="assets/xucRun.ico">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Zum Inhalt</a>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="xucRun Startseite">
+      <img src="assets/xucRun.ico" width="32" height="32" alt="">
+      <span>xucRun</span>
+    </a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="navigation">
+      <span class="sr-only">Navigation öffnen</span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+    <nav id="navigation" class="navigation" aria-label="Hauptnavigation">
+      <a href="#funktionsweise">Funktionsweise</a>
+      <a href="#sicherheit">Schutzmechanismen</a>
+      <a href="#ablauf">Einrichtung</a>
+      <a href="#beispiele">Beispiele</a>
+      <a href="https://github.com/HT64/xucRun/blob/main/README.de.md">Dokumentation</a>
+      <a href="#faq">Fragen</a>
+      <a href="#download">Download</a>
+      <div class="language-selector" aria-label="Sprache">
+        <span aria-current="page">DE</span>
+        <a href="index-en.html" lang="en" hreflang="en" aria-label="Switch to English">EN</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">eXecute Under User Context</p>
+        <h1>xucRun</h1>
+        <p class="hero-lead">xucRun startet Windows-Programme unter einem Administrator- oder anderen Windows-Konto. Gespeicherte Anmeldedaten vermeiden wiederholte Kennworteingaben. Eine von Windows für den konkreten Start verlangte UAC-Bestätigung bleibt erforderlich. Jeder Start mit gespeicherten Anmeldedaten muss durch eine aktive Freigabe abgedeckt oder im Dialog bestätigt werden. Aufrufe sind interaktiv und per Skript möglich.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#download">Releases und Quellcode</a>
+          <a class="button button-secondary" href="https://github.com/HT64/xucRun/blob/main/README.de.md">README und Dokumentation</a>
+        </div>
+        <p class="hero-note">xucRun ist Open-Source-Software in Entwicklung. Der aktuelle Stand kann Fehler enthalten, vom beschriebenen Verhalten abweichen und sich ändern. Vorgesehen für erfahrene Privatanwender und Entwickler auf selbst verwalteten Windows-Rechnern, nicht für Systeme mit erhöhtem Schutzbedarf. Die Nutzung erfolgt eigenverantwortlich. <a href="impressum.html#einsatzbereich">Hinweise zu Einsatzbereich, Schutzgrenzen und Haftung</a>.</p>
+      </div>
+
+      <div class="product-scene" aria-label="Beispiele für xucRun-Aufrufe und deren Ablauf">
+        <div class="command-examples">
+          <div class="terminal-window">
+            <div class="window-bar">
+              <span>PowerShell</span>
+            </div>
+            <div class="terminal">
+              <p><span class="prompt">PS C:\Tools&gt;</span> .\xucRun.exe regedit.exe</p>
+            </div>
+          </div>
+          <div class="terminal-window">
+            <div class="window-bar">
+              <span>Eingabeaufforderung</span>
+            </div>
+            <div class="terminal">
+              <p><span class="prompt">C:\Tools&gt;</span>xucRun.exe regedit.exe</p>
+            </div>
+          </div>
+        </div>
+        <div class="flow-transition" aria-hidden="true"></div>
+        <div class="workflow-card">
+          <div class="workflow-heading">
+            <span>Typischer Ablauf</span>
+            <strong>Erhöhter Start mit Kontowechsel</strong>
+          </div>
+          <div class="flow">
+            <div class="flow-line"><span class="flow-marker" aria-hidden="true"></span><span>Gespeichertes Administratorkonto gefunden</span></div>
+            <div class="flow-line"><span class="flow-marker" aria-hidden="true"></span><span>Anmeldedaten anhand der Freigabe geprüft</span></div>
+            <div class="flow-line"><span class="flow-marker" aria-hidden="true"></span><span>UAC-Bestätigung erteilt</span></div>
+            <div class="flow-line active"><span class="flow-marker flow-marker-result" aria-hidden="true"></span><span>Programm mit erhöhten Rechten gestartet</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="proof-strip" aria-label="Kurzüberblick">
+      <p><strong>Windows-Funktionen</strong><span>Kontowechsel und UAC</span></p>
+      <p><strong>Getrennte Speicherung</strong><span>Keine Kennwortübergabe an Zielprogramme im vorgesehenen Ablauf</span></p>
+      <p><strong>Interaktive Freigaben</strong><span>Einmalig oder wiederverwendbar im Dialog gewählt</span></p>
+    </section>
+
+    <section class="section" id="funktionsweise">
+      <div class="section-heading">
+        <p class="eyebrow">Zweck und Funktionsweise</p>
+        <h2>Kontowechsel und optionale Rechteerhöhung.</h2>
+        <p>xucRun deckt mehrere Anwendungsfälle ab, in denen ein Programm mit erhöhten Rechten oder unter einem anderen Benutzerkonto – wahlweise mit oder ohne Rechteerhöhung – ausgeführt werden soll. Ein zentraler Anwendungsfall sind ausgewählte Programmstarts für administrative Aufgaben aus einem Standardbenutzerkonto. Aufrufe können aus Skripten, Batchdateien, festen Verknüpfungen und benutzerdefinierten Befehlen in konfigurierbaren Dateimanagern erfolgen.</p>
+      </div>
+      <div class="feature-grid">
+        <article>
+          <span class="feature-number">01</span>
+          <h3>Kontonamenfreie Aufrufe</h3>
+          <p>Ist genau ein Administratorkonto gespeichert, genügt für eine erhöhte Ausführung der Programmaufruf. Benutzername und Kennwort müssen dann nicht in Skripten oder Verknüpfungen angegeben werden.</p>
+        </article>
+        <article>
+          <span class="feature-number">02</span>
+          <h3>Pfade und Sonderzeichen</h3>
+          <p>xucRun verarbeitet Programmpfade, Arbeitsverzeichnisse, Batchdateien und typische Shell-Sonderzeichen und reicht sie an das Zielprogramm weiter.</p>
+        </article>
+        <article>
+          <span class="feature-number">03</span>
+          <h3>Interaktive Dialoge</h3>
+          <p>Dialoge dienen zum Einrichten und Auswählen von Konten sowie zum Freigeben von Programmstarts.</p>
+        </article>
+        <article>
+          <span class="feature-number">04</span>
+          <h3>Windows-Funktionen in einem Ablauf</h3>
+          <p>xucRun verwendet vorhandene Windows-Funktionen für Kontowechsel und UAC-Erhöhung in einem gemeinsamen Ablauf für Programmstarts.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section security-section" id="sicherheit">
+      <div class="security-intro">
+        <p class="eyebrow">Schutzmechanismen</p>
+        <h2>Kennwörter werden getrennt von normal gestarteten Programmen verwaltet.</h2>
+        <p>xucRun verwendet Windows-APIs zur Kennwortspeicherung. Im vorgesehenen Ablauf gelangen Kennwörter weder in die Kommandozeile noch an das Zielprogramm. Kennworteingabe und Freigaben erfolgen auf einem separaten Windows-Desktop. Ein benutzerspezifisches Sicherheitsmerkmal unterstützt dort die Wiedererkennung späterer xucRun-Dialoge.</p>
+        <p class="security-boundary"><strong>Schutzgrenze:</strong> Auf einem kompromittierten System kann xucRun keinen umfassenden Schutz gewährleisten. Zudem müssen aufrufende Skripte und Konfigurationsdateien vertrauenswürdig sowie vor unbefugten Änderungen geschützt sein.</p>
+      </div>
+      <div class="security-list">
+        <article>
+          <span aria-hidden="true">✓</span>
+          <div><h3>UAC bleibt UAC</h3><p>Falls Windows für eine konkrete Erhöhung eine UAC-Bestätigung verlangt, bleibt sie Teil des Startvorgangs. xucRun ersetzt sie nicht durch eine eigene Freigabe. Welche UAC-Abfrage Windows tatsächlich zeigt, hängt vom konkreten Startpfad und der Windows-Konfiguration ab.</p></div>
+        </article>
+        <article>
+          <span aria-hidden="true">✓</span>
+          <div><h3>An Pfad und Hash gebundene Starts</h3><p>Freigaben für ein bestimmtes Zielprogramm binden dessen final aufgelösten Pfad und SHA-256-Hash. Ändert sich die gebundene Programmdatei, passt die bisherige Freigabe nicht mehr. Allgemeine Freigaben besitzen diese Programmbindung nicht.</p></div>
+        </article>
+        <article>
+          <span aria-hidden="true">✓</span>
+          <div><h3>Verwendung nur nach Freigabe</h3><p>xucRun verwendet gespeicherte Anmeldedaten nur für einen Start, der von einer aktiven Freigabe abgedeckt ist oder vom Benutzer im laufenden Dialog freigegeben wird. Ohne Freigabe erfolgt kein Start.</p></div>
+        </article>
+        <article>
+          <span aria-hidden="true">✓</span>
+          <div><h3>Komfort und Begrenzung selbst festlegen</h3><p>Längere und weiter gefasste Freigaben vermeiden häufiger erneute xucRun-Freigabeentscheidungen. Kürzere oder genauer an Programm, Aufruf und Zielkonto gebundene Freigaben begrenzen ihre Wiederverwendung. Bei einer wiederverwendbaren Freigabe ist diese differenzierte Auswahl in der Regel nur einmal erforderlich.</p></div>
+        </article>
+        <article>
+          <span aria-hidden="true">✓</span>
+          <div><h3>Optional enger gebundene Freigaben</h3><p>Wiederverwendbare Freigaben lassen sich zusätzlich an Argumente, Arbeitsverzeichnis und Startsichtbarkeit binden. Direkt erkannte Skripte können in diese Bindung einbezogen werden; später geladene Inhalte nicht.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section steps-section" id="ablauf">
+      <div class="section-heading compact">
+        <p class="eyebrow">Installation und Einrichtung</p>
+        <h2>Release prüfen und xucRun einrichten.</h2>
+        <p>Der Core-Installer erstellt auf deinem Rechner automatisch ein lokales xucRun-Zertifikat und signiert die zu installierenden Komponenten damit. Vor der Installation und bei der späteren Verwendung prüft xucRun die Signaturen der zusammengehörigen Komponenten. Dadurch werden nachträgliche Änderungen erkennbar, während das dauerhafte Vertrauen auf deinen Rechner begrenzt bleibt; das Entwicklerzertifikat wird dort nicht als Vertrauensanker installiert. Einzelheiten beschreibt die <a href="lokale-signierung.html">lokale Signierung</a>.</p>
+      </div>
+      <ol class="steps">
+        <li>
+          <span>1</span>
+          <div><h3>xucRun installieren</h3><p>Alle benötigten xucRun-Komponenten werden lokal auf deinem Windows-System eingerichtet.</p></div>
+        </li>
+        <li>
+          <span>2</span>
+          <div><h3>Anmeldedaten speichern</h3><p>Benötigte Anmeldedaten werden bei Bedarf auf einem separaten Windows-Desktop abgefragt und können auch vorab eingerichtet werden.</p></div>
+        </li>
+        <li>
+          <span>3</span>
+          <div><h3>Programm freigeben und starten</h3><p>Ist keine passende Freigabe aktiv, wird der Start interaktiv bestätigt.</p><code>.\xucRun.exe regedit.exe</code></div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="examples-section" id="beispiele">
+      <div class="section-heading compact">
+        <p class="eyebrow">Anwendungsbeispiele</p>
+        <h2>Beispiele für Programmstarts.</h2>
+        <p>Die Beispiele setzen voraus, dass xucRun installiert ist und die benötigten Konten eingerichtet sind. Fehlt eine passende Freigabe, fragt xucRun vor dem Start interaktiv nach.</p>
+      </div>
+      <div class="example-list">
+        <article>
+          <span class="example-number">01</span>
+          <div>
+            <h3>Registrierungseditor erhöht starten</h3>
+            <p>Ist genau ein Administratorkonto gespeichert, genügt der Zielbefehl. Eine für diesen erhöhten Start von Windows verlangte UAC-Bestätigung bleibt erforderlich.</p>
+            <code>.\xucRun.exe regedit.exe</code>
+          </div>
+        </article>
+        <article>
+          <span class="example-number">02</span>
+          <div>
+            <h3>Programm unter einem bestimmten Konto starten</h3>
+            <p>Mit <code>/user:</code> wird das angegebene Konto verwendet, ohne dass xucRun selbst eine zusätzliche Rechteerhöhung anfordert.</p>
+            <code>.\xucRun.exe /user:DOMAIN\Benutzer notepad.exe</code>
+          </div>
+        </article>
+        <article>
+          <span class="example-number">03</span>
+          <div>
+            <h3>Batchdatei aus einem Skript aufrufen</h3>
+            <p>Pfade, Argumente und typische Shell-Sonderzeichen werden kontrolliert an die Batchdatei weitergereicht.</p>
+            <code>.\xucRun.exe "C:\Scripts\Wartung &amp; Prüfung.bat"</code>
+          </div>
+        </article>
+        <article>
+          <span class="example-number">04</span>
+          <div>
+            <h3>Aktuelle Konsole ersetzen</h3>
+            <p>Ohne Zielprogramm erkennt xucRun die aufrufende Konsole, startet denselben Konsolentyp im ermittelten Konten- und Berechtigungskontext und übernimmt das aktuelle Arbeitsverzeichnis. Unterstützt werden Eingabeaufforderung, Windows PowerShell, PowerShell und TCC.</p>
+            <code>.\xucRun.exe
+.\xucRun.exe /user:&lt;Konto&gt;</code>
+          </div>
+        </article>
+        <article class="example-wide">
+          <span class="example-number">05</span>
+          <div>
+            <h3>In andere Anwendungen integrieren</h3>
+            <p>xucRun lässt sich aus konfigurierbaren Dateimanagern, Skripten, Desktop-Verknüpfungen und anderen Anwendungen aufrufen, um Programme erhöht oder unter einem anderen Konto zu starten. Die <a href="https://github.com/HT64/xucRun/blob/main/README.de.md#integration-in-total-commander">Dokumentation</a> enthält unter anderem ein vollständiges Konfigurationsbeispiel für Total Commander.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section faq-section" id="faq">
+      <div class="section-heading compact">
+        <h2>Fragen vor der Nutzung</h2>
+        <p>Verwaltungsbefehle, Datensicherungen, Updateverhalten und weitere technische Einzelheiten beschreibt die <a href="https://github.com/HT64/xucRun/blob/main/README.de.md">README</a>.</p>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>Wie lässt sich xucRun prüfen und einschätzen?</summary>
+          <p>Quellcode und Dokumentation sind öffentlich zugänglich, damit technische Maßnahmen, ihre Grenzen und verbleibende Risiken nachvollzogen werden können. Die Veröffentlichung ist jedoch weder eine Sicherheitsgarantie noch ein Beleg für ein unabhängiges Audit; xucRun wurde nicht unabhängig auditiert oder zertifiziert. Prüfe vor der Nutzung Quellcode, SHA-256-Prüfsummen, vorgesehenen Einsatzbereich und dokumentierte Sicherheitsgrenzen und verwende xucRun nur, wenn das verbleibende Risiko für deinen Einsatzfall akzeptabel ist.</p>
+        </details>
+        <details>
+          <summary>Welche Daten speichert xucRun und wo?</summary>
+          <p>xucRun verwendet Windows-APIs, um Kennwörter, Freigaben, Sicherheitsmerkmale, zugehörige Metadaten und angelegte Datensicherungen auf dem lokalen Computer zu speichern. Datensicherungen können außerdem eine vom Benutzer eingegebene Beschreibung enthalten. Im vorgesehenen Ablauf werden gespeicherte Kennwörter und Sicherheitsmerkmale nicht an normal gestartete Programme übertragen. Bei der Deinstallation lassen sich diese Produktdaten vollständig entfernen.</p>
+        </details>
+        <details>
+          <summary>Warum benötigt xucRun einen Windows-Dienst?</summary>
+          <p>Der Windows-Dienst verwaltet gespeicherte Kennwörter getrennt vom normal gestarteten xucRun-Programm. Er prüft jeden angeforderten Start und startet das Programm unter dem gewählten Konto. Notwendige Freigaben und UAC-Abfragen bleiben für den Benutzer sichtbar und müssen weiterhin bestätigt werden. Der Dienst schafft keine zusätzlichen Berechtigungen.</p>
+        </details>
+        <details>
+          <summary>Welche Systeme und Laufzeitkomponenten werden benötigt?</summary>
+          <p>xucRun unterstützt Windows 10 und Windows 11 auf x64-Systemen. Andere Windows-Versionen und ARM64-Systeme wurden nicht geprüft und werden nicht unterstützt. Zusätzlich ist die aktuelle <a href="https://aka.ms/vc14/vc_redist.x64.exe">Microsoft Visual C++ v14 Redistributable für x64</a> erforderlich; einen zusätzlichen Fremddienst benötigt xucRun nicht. Fehlt die Laufzeitkomponente, bietet der Installer Download, Auswahl einer vorhandenen <code>vc_redist.x64.exe</code> oder Abbruch an.</p>
+        </details>
+        <details>
+          <summary>Umgeht xucRun die Benutzerkontensteuerung?</summary>
+          <p>Nein. xucRun bündelt vorhandene Windows-Funktionen, schafft keine zusätzlichen Berechtigungen und ersetzt UAC nicht durch eine eigene Freigabe. Bei kontenübergreifenden erhöhten Starts muss Windows für das gewählte Administratorkonto einen bestätigbaren UAC-Weg bereitstellen; andernfalls bleibt der Start geschlossen. Das kann insbesondere das integrierte Konto <code>Administrator</code> ohne aktivierten Administratorbestätigungsmodus betreffen.</p>
+        </details>
+        <details>
+          <summary>Warum verwendet xucRun eine lokale Signierung?</summary>
+          <p>Das veröffentlichte Paket ist mit einem selbstsignierten Entwicklerzertifikat signiert. Ohne lokale Neusignierung müsste dieses Zertifikat auf jedem Zielrechner dauerhaft als vertrauenswürdige Stammzertifizierungsstelle und als vertrauenswürdiger Herausgeber installiert werden. Windows würde dann jeder Datei vertrauen, die mit demselben Entwicklerzertifikat signiert wurde.</p>
+          <p>Der Core-Installer prüft die digitalen Signaturen, erstellt oder verwendet ein lokales Zertifikat mit nicht exportierbarem privaten Schlüssel und signiert die Komponenten damit neu. Das dauerhafte Vertrauen bleibt so auf den jeweiligen Rechner begrenzt. Die lokale Signierung bestätigt nicht die Herkunft des Downloads; deshalb muss zuvor die veröffentlichte SHA-256-Prüfsumme verglichen werden. <a href="lokale-signierung.html">Lokale Signierung im Detail</a></p>
+        </details>
+      </div>
+    </section>
+
+    <section class="download-section" id="download">
+      <div>
+        <p class="eyebrow">xucRun für Windows</p>
+        <h2>Releases und Quellcode.</h2>
+        <p>xucRun und das optionale Tray werden als Open-Source-Projekte auf GitHub veröffentlicht. Das Tray ergänzt eine Status- und Bedienoberfläche im Windows-Infobereich.</p>
+        <p>Installationsdateien, Prüfsummen und Versionshinweise stehen auf der Downloadseite. Quellcode, Lizenztexte und technische Dokumentation befinden sich in den jeweiligen GitHub-Repositories.</p>
+        <p class="download-notice"><strong>Wichtiger Hinweis:</strong> Bitte lies vor Download und Nutzung die Hinweise zu <a href="impressum.html#einsatzbereich">Einsatzbereich, Sicherheitsgrenzen und möglichen Risiken</a>.</p>
+      </div>
+      <div class="download-actions">
+        <a class="button button-light" href="download.html">Releases und Prüfsummen</a>
+        <a class="button button-outline-light" href="https://github.com/HT64/xucRun">Core-Repository</a>
+        <a class="button button-outline-light" href="https://github.com/HT64/xucRun-Tray">Optionales Tray-Repository</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="#top">
+      <img src="assets/xucRun.ico" width="28" height="28" alt="">
+      <span>xucRun</span>
+    </a>
+    <p>Kontowechsel und Rechteerhöhung für Windows.</p>
+    <div class="footer-links">
+      <a href="download.html">Download</a>
+      <a href="lokale-signierung.html">Lokale Signierung</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+    </div>
+    <small>© <span data-current-year></span> xucRun</small>
+  </footer>
+</body>
+</html>
