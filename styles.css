@@ -1,0 +1,106 @@
+/* Purpose: Styles the shared HT64 project overview. */
+:root {
+  color-scheme: light;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #24211d;
+  background: #f4f1ea;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+main {
+  width: min(68rem, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: clamp(3rem, 8vw, 7rem) 0;
+}
+
+header {
+  max-width: 46rem;
+  margin-bottom: 3rem;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 1.25rem;
+  font-size: clamp(2.6rem, 8vw, 5.5rem);
+  letter-spacing: -0.05em;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+
+p {
+  font-size: 1.08rem;
+  line-height: 1.65;
+}
+
+.eyebrow,
+.project-type {
+  margin-bottom: 1.25rem;
+  color: #765a31;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+nav {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+nav a,
+nav span {
+  color: inherit;
+  font-weight: 700;
+}
+
+section {
+  max-width: 46rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border: 1px solid #d5ccbd;
+  border-radius: 1rem;
+  background: #fffdf8;
+  box-shadow: 0 1rem 2.5rem rgb(74 55 31 / 8%);
+}
+
+.button {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.8rem 1rem;
+  border-radius: 0.45rem;
+  color: #fff;
+  background: #3f4a38;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.button:focus-visible,
+.button:hover {
+  background: #273022;
+}
+
+footer {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+footer a {
+  color: inherit;
+}
